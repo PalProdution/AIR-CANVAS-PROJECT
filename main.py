@@ -207,3 +207,20 @@ while True:
 
                 if points[i][j][k - 1] is None or points[i][j][k] is None:
                     continue
+                    
+                cv2.line(frame, points[i][j][k - 1], points[i][j][k], colors[i], 2)
+                cv2.line(paintWindow, points[i][j][k - 1], points[i][j][k], colors[i], 2)
+
+    # Show all the windows
+    cv2.imshow("Tracking", frame)
+    cv2.imshow("Paint", paintWindow)
+    cv2.imshow("mask", Mask)
+
+    # If the 'q' key is pressed then stop the application
+    if cv2.waitKey(1) & 0xFF == ord("q"):
+        break
+
+# Release the camera and all resources
+cap.release()
+cv2.destroyAllWindows()
+
