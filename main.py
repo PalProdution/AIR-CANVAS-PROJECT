@@ -60,3 +60,43 @@ cv2.namedWindow('Paint', cv2.WINDOW_AUTOSIZE)
 
 # Loading the default webcam of PC.
 cap = cv2.VideoCapture(0)
+
+# Keep looping
+while True:
+
+    # Reading the frame from the camera
+    ret, frame = cap.read()
+
+    # Flipping the frame to see same side of yours
+    frame = cv2.flip(frame, 1)
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+    # Getting the updated positions of the trackbar
+    # and setting the HSV values
+    u_hue = cv2.getTrackbarPos("Upper Hue",
+                               "Color detectors")
+    u_saturation = cv2.getTrackbarPos("Upper Saturation",
+                                      "Color detectors")
+    u_value = cv2.getTrackbarPos("Upper Value",
+                                 "Color detectors")
+    l_hue = cv2.getTrackbarPos("Lower Hue",
+                               "Color detectors")
+    l_saturation = cv2.getTrackbarPos("Lower Saturation",
+                                      "Color detectors")
+    l_value = cv2.getTrackbarPos("Lower Value",
+                                 "Color detectors")
+    Upper_hsv = np.array([u_hue, u_saturation, u_value])
+    Lower_hsv = np.array([l_hue, l_saturation, l_value])
+
+    # Adding the colour buttons to the live frame
+    # for colour access
+    frame = cv2.rectangle(frame, (40, 1), (140, 65),
+                          (122, 122, 122), -1)
+    frame = cv2.rectangle(frame, (160, 1), (255, 65),
+                          colors[0], -1)
+    frame = cv2.rectangle(frame, (275, 1), (370, 65),
+                          colors[1], -1)
+    frame = cv2.rectangle(frame, (390, 1), (485, 65),
+                          colors[2], -1)
+    frame = cv2.rectangle(frame, (505, 1), (600, 65),
+                          colors[3], -1)
