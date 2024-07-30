@@ -100,3 +100,45 @@ while True:
                           colors[2], -1)
     frame = cv2.rectangle(frame, (505, 1), (600, 65),
                           colors[3], -1)
+ cv2.putText(frame, "CLEAR ALL", (49, 33),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                (255, 255, 255), 2, cv2.LINE_AA)
+
+    cv2.putText(frame, "BLUE", (185, 33),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                (255, 255, 255), 2, cv2.LINE_AA)
+
+    cv2.putText(frame, "GREEN", (298, 33),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                (255, 255, 255), 2, cv2.LINE_AA)
+
+    cv2.putText(frame, "RED", (420, 33),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                (255, 255, 255), 2, cv2.LINE_AA)
+
+    cv2.putText(frame, "YELLOW", (520, 33),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                (150, 150, 150), 2, cv2.LINE_AA)
+
+    # Identifying the pointer by making its
+    # mask
+    Mask = cv2.inRange(hsv, Lower_hsv, Upper_hsv)
+    Mask = cv2.erode(Mask, kernel, iterations=1)
+    Mask = cv2.morphologyEx(Mask, cv2.MORPH_OPEN, kernel)
+    Mask = cv2.dilate(Mask, kernel, iterations=1)
+
+    # Find contours for the pointer after
+    # identifying it
+    cnts, _ = cv2.findContours(Mask.copy(), cv2.RETR_EXTERNAL,
+                               cv2.CHAIN_APPROX_SIMPLE)
+    center = None
+
+    # Ifthe contours are formed
+    if len(cnts) > 0:
+
+        # sorting the contours to find biggest
+        cnt = sorted(cnts, key=cv2.contourArea, reverse=True)[0]
+
+        # Get the radius of the enclosing circle
+        # around the found contour
+        ((x, y), radius) = cv2.minEnclosingCircle(cnt)
