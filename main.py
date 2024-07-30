@@ -142,3 +142,45 @@ while True:
         # Get the radius of the enclosing circle
         # around the found contour
         ((x, y), radius) = cv2.minEnclosingCircle(cnt)
+
+# Draw the circle around the contour
+        cv2.circle(frame, (int(x), int(y)), int(radius), (0, 255, 255), 2)
+
+        # Calculating the center of the detected contour
+        M = cv2.moments(cnt)
+        center = (int(M['m10'] / M['m00']), int(M['m01'] / M['m00']))
+
+        # Now checking if the user wants to click on
+        # any button above the screen
+        if center[1] <= 65:
+
+            # Clear Button
+            if 40 <= center[0] <= 140:
+                bpoints = [deque(maxlen=512)]
+                gpoints = [deque(maxlen=512)]
+                rpoints = [deque(maxlen=512)]
+                ypoints = [deque(maxlen=512)]
+
+                blue_index = 0
+                green_index = 0
+                red_index = 0
+                yellow_index = 0
+
+                paintWindow[67:, :, :] = 255
+            elif 160 <= center[0] <= 255:
+                colorIndex = 0  # Blue
+            elif 275 <= center[0] <= 370:
+                colorIndex = 1  # Green
+            elif 390 <= center[0] <= 485:
+                colorIndex = 2  # Red
+            elif 505 <= center[0] <= 600:
+                colorIndex = 3  # Yellow
+        else:
+            if colorIndex == 0:
+                bpoints[blue_index].appendleft(center)
+            elif colorIndex == 1:
+                gpoints[green_index].appendleft(center)
+            elif colorIndex == 2:
+                rpoints[red_index].appendleft(center)
+            elif colorIndex == 3:
+                ypoints[yellow_index].appendleft(center)
