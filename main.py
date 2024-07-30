@@ -184,3 +184,26 @@ while True:
                 rpoints[red_index].appendleft(center)
             elif colorIndex == 3:
                 ypoints[yellow_index].appendleft(center)
+                # Append the next deques when nothing is
+    # detected to avoid messing up
+    else:
+        bpoints.append(deque(maxlen=512))
+        blue_index += 1
+        gpoints.append(deque(maxlen=512))
+        green_index += 1
+        rpoints.append(deque(maxlen=512))
+        red_index += 1
+        ypoints.append(deque(maxlen=512))
+        yellow_index += 1
+
+    # Draw lines of all the colors on the
+    # canvas and frame
+    points = [bpoints, gpoints, rpoints, ypoints]
+    for i in range(len(points)):
+
+        for j in range(len(points[i])):
+
+            for k in range(1, len(points[i][j])):
+
+                if points[i][j][k - 1] is None or points[i][j][k] is None:
+                    continue
